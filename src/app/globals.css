@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/* Force Tailwind to scan this specific file 
+@source "./Navbar.tsx"; 
+@source "./page.tsx";
+@source "./layout.tsx";*/
+
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
+
+@layer base {
+  html, body {
+    background-color: #0a0a0a; /* Ultra-dark luxury charcoal */
+    color: #f5f5f5;            /* Off-white crisp text */
+    scroll-behavior: smooth;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Custom utility class for premium glassmorphic layouts */
+@layer utilities {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
