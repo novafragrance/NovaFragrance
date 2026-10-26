@@ -2,30 +2,23 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import 'dotenv/config';
 
-
 const databaseString = process.env.DATABASE_URL;
 
 if (!databaseString) {
   throw new Error("CRITICAL: DATABASE_URL is missing from .env");
 }
 
+// Use a unique name for the client and adapter to prevent global scope collisions
 const seedAdapter = new PrismaPg({ connectionString: databaseString });
-const prisma = new PrismaClient({ adapter: seedAdapter });
-
-export {}; // This completely isolates the file from global scope collisions
-
-
-// Prisma 7 Requires the Driver Adapter pattern for the seed script too
-const adapter = new PrismaPg({ connectionString: databaseString });
-const prisma = new PrismaClient({ adapter });
+const seedPrisma = new PrismaClient({ adapter: seedAdapter });
 
 async function main() {
   console.log('Seeding the database...');
 
   // Clean the slate first to avoid duplicate errors
-  await prisma.product.deleteMany();
+  await seedPrisma.product.deleteMany();
 
-  const products = await prisma.product.createMany({
+  const products = await seedPrisma.product.createMany({
     data: [
       {
         name: "VETIVER 46",
@@ -83,5 +76,7 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await seedPrisma.$disconnect();
   });
+
+export {}; // This completely isolates the file from global scope collisions
