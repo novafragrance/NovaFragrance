@@ -9,8 +9,10 @@ if (!databaseString) {
   throw new Error("CRITICAL: DATABASE_URL is missing from .env");
 }
 
-const adapter = new PrismaPg({ connectionString: databaseString });
-const prisma = new PrismaClient({ adapter });
+const seedAdapter = new PrismaPg({ connectionString: databaseString });
+const prisma = new PrismaClient({ adapter: seedAdapter });
+
+export {}; // This completely isolates the file from global scope collisions
 
 
 // Prisma 7 Requires the Driver Adapter pattern for the seed script too
